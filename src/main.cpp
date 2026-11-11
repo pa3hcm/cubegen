@@ -2,6 +2,10 @@
  * cubeGen v0.1b - simple RF signal generator
  * (c) 2026 PA3HCM
  *
+ * Licensed under the Creative Commons Attribution-NonCommercial 4.0
+ * International License (CC BY-NC 4.0). See the LICENSE file or
+ * https://creativecommons.org/licenses/by-nc/4.0/
+ *
  * Hardware:
  *   - ESP32 devboard (esp32dev)
  *   - Si5351 DDS board, 25 MHz crystal, I2C address 0x60, output on CLK0

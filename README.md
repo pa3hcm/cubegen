@@ -57,3 +57,12 @@ automatically.
 
 Set `XTAL_CORRECTION` in `src/main.cpp` (parts per billion) to correct the
 25 MHz crystal error.
+
+## License
+
+(c) 2026 PA3HCM
+
+This work is licensed under the
+[Creative Commons Attribution-NonCommercial 4.0 International License](https://creativecommons.org/licenses/by-nc/4.0/)
+(CC BY-NC 4.0). You may share and adapt it for non-commercial purposes,
+provided you give appropriate credit. See [LICENSE](LICENSE) for the full text.

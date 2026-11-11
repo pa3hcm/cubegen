@@ -88,6 +88,16 @@ This project was generated with the help of an AI model.
 
 > Set the default mode to `OFF`and the default frequency to 10.000 MHz.
 
+### Follow-up 11
+
+> Create a new repository on my Github (account: 'pa3hcm'). Push all code to this repository. You can use the github client on my laptop.
+
+(Created public repository https://github.com/pa3hcm/cubegen.)
+
+### Follow-up 12
+
+> Apply the following license: Creative Commons Attribution-NonCommercial 4.0 International License
+
 ## Design decisions made by the AI
 
 - I2C bus shared by Si5351 (0x60) and OLED (SSD1306, 0x3C) on GPIO21 (SDA) / GPIO22 (SCL).
@@ -102,4 +112,5 @@ This project was generated with the help of an AI model.
 - FSK modes start on the displayed frequency, then the shifted (higher) frequency.
 - Keying is done with the Si5351 output enable, so the oscillator keeps running.
 - "Mode: <mode>" is shown on the bottom line of the display; a missing Si5351 warning moved to the top line.
+- License: CC BY-NC 4.0; official legal code in `LICENSE`, notice in README, `main.cpp` and `platformio.ini`.
 - Libraries: Etherkit Si5351, Adafruit SSD1306, Adafruit GFX.
