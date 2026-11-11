@@ -1,0 +1,137 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700" width="1000" height="700" font-family="DejaVu Sans, Arial, sans-serif">
+  <rect width="1000" height="700" fill="#ffffff"/>
+  <text x="500" y="26" text-anchor="middle" font-size="20" font-weight="bold" fill="#222">cubeGen v0.1b — wiring (all boards 3.3 V)</text>
+
+  <!-- ===================== ESP32 ===================== -->
+  <rect x="60" y="120" width="220" height="490" rx="8" fill="#2b3a55" stroke="#111" stroke-width="2"/>
+  <rect x="120" y="135" width="100" height="70" rx="3" fill="#b8bec7" stroke="#555"/>
+  <text x="170" y="175" text-anchor="middle" font-size="13" fill="#333">ESP32-WROOM</text>
+  <text x="125" y="410" text-anchor="middle" font-size="18" font-weight="bold" fill="#fff">ESP32</text><text x="125" y="432" text-anchor="middle" font-size="14" fill="#fff">devboard</text>
+  <rect x="140" y="585" width="40" height="22" rx="3" fill="#999" stroke="#555"/>
+  <text x="160" y="600" text-anchor="middle" font-size="10" fill="#222">USB</text>
+  <g font-size="13" fill="#fff" text-anchor="end">
+    <text x="268" y="174">3V3</text>
+    <text x="268" y="214">GND</text>
+    <text x="268" y="264">GPIO21 SDA</text>
+    <text x="268" y="304">GPIO22 SCL</text>
+    <text x="268" y="484">GPIO32</text>
+    <text x="268" y="514">GPIO33</text>
+    <text x="268" y="544">GPIO25</text>
+    <text x="268" y="574">GPIO26</text>
+  </g>
+
+  <!-- ===================== Si5351 ===================== -->
+  <rect x="640" y="50" width="250" height="160" rx="8" fill="#6a1b9a" stroke="#111" stroke-width="2"/>
+  <text x="765" y="78" text-anchor="middle" font-size="17" font-weight="bold" fill="#fff">Si5351 DDS</text>
+  <text x="765" y="96" text-anchor="middle" font-size="11" fill="#e1c8f0">25 MHz xtal · I2C 0x60</text>
+  <rect x="740" y="120" width="40" height="40" fill="#222" stroke="#555"/>
+  <g font-size="13" fill="#fff">
+    <text x="652" y="84">VIN</text>
+    <text x="652" y="114">GND</text>
+    <text x="652" y="144">SCL</text>
+    <text x="652" y="174">SDA</text>
+  </g>
+  <!-- SMA connectors -->
+  <g font-size="12" fill="#fff" text-anchor="end">
+    <text x="872" y="114">CLK0</text>
+    <text x="872" y="149">CLK1</text>
+    <text x="872" y="184">CLK2</text>
+  </g>
+  <g fill="#d4af37" stroke="#8a6d1b" stroke-width="1.5">
+    <rect x="890" y="100" width="26" height="18"/>
+    <rect x="890" y="135" width="26" height="18"/>
+    <rect x="890" y="170" width="26" height="18"/>
+  </g>
+  <text x="925" y="114" font-size="13" font-weight="bold" fill="#c62828">RF out</text>
+  <text x="925" y="149" font-size="11" fill="#777">(off)</text>
+  <text x="925" y="184" font-size="11" fill="#777">(off)</text>
+
+  <!-- ===================== OLED ===================== -->
+  <rect x="640" y="250" width="250" height="140" rx="8" fill="#0d47a1" stroke="#111" stroke-width="2"/>
+  <rect x="720" y="268" width="155" height="105" fill="#000" stroke="#444"/>
+  <text x="797" y="315" text-anchor="middle" font-size="16" font-family="DejaVu Sans Mono, monospace" fill="#8ff">10.000.000</text>
+  <rect x="750" y="320" width="9" height="2" fill="#8ff"/>
+  <text x="797" y="355" text-anchor="middle" font-size="10" fill="#9ab">GM009605v4 · SSD1306</text>
+  <text x="797" y="367" text-anchor="middle" font-size="10" fill="#9ab">I2C 0x3C</text>
+  <g font-size="13" fill="#fff">
+    <text x="652" y="284">GND</text>
+    <text x="652" y="314">VCC</text>
+    <text x="652" y="344">SCL</text>
+    <text x="652" y="374">SDA</text>
+  </g>
+
+  <!-- ===================== Buttons ===================== -->
+  <rect x="640" y="430" width="250" height="170" rx="8" fill="#1b5e20" stroke="#111" stroke-width="2"/>
+  <text x="790" y="455" text-anchor="middle" font-size="15" font-weight="bold" fill="#fff">4 push buttons</text>
+  <g font-size="13" fill="#fff">
+    <text x="652" y="484">K1</text>
+    <text x="652" y="514">K2</text>
+    <text x="652" y="544">K3</text>
+    <text x="652" y="574">K4</text>
+    <text x="652" y="594">GND</text>
+  </g>
+  <g fill="#333" stroke="#111">
+    <circle cx="720" cy="480" r="9"/><circle cx="720" cy="510" r="9"/>
+    <circle cx="720" cy="540" r="9"/><circle cx="720" cy="570" r="9"/>
+  </g>
+  <g font-size="12" fill="#dfe">
+    <text x="738" y="484">1: digit up</text>
+    <text x="738" y="514">2: digit down</text>
+    <text x="738" y="544">3: next digit</text>
+    <text x="738" y="574">4: mode</text>
+  </g>
+
+  <!-- ===================== Wires ===================== -->
+  <g fill="none" stroke-width="3" stroke-linejoin="round">
+    <!-- 3V3 -->
+    <path d="M280,170 H330 V80 H640" stroke="#d32f2f"/>
+    <path d="M330,170 V310 H640" stroke="#d32f2f"/>
+    <!-- GND -->
+    <path d="M280,210 H350 V110 H640" stroke="#222"/>
+    <path d="M350,210 V590 H640" stroke="#222"/>
+    <path d="M350,280 H640" stroke="#222"/>
+    <!-- SDA -->
+    <path d="M280,260 H390 V170 H640" stroke="#1e6fd9"/>
+    <path d="M390,260 V370 H640" stroke="#1e6fd9"/>
+    <!-- SCL -->
+    <path d="M280,300 H410 V140 H640" stroke="#f2a900"/>
+    <path d="M410,300 V340 H640" stroke="#f2a900"/>
+    <!-- Buttons -->
+    <path d="M280,480 H640" stroke="#2e7d32"/>
+    <path d="M280,510 H640" stroke="#00897b"/>
+    <path d="M280,540 H640" stroke="#8e24aa"/>
+    <path d="M280,570 H640" stroke="#6d4c41"/>
+  </g>
+  <!-- junction dots -->
+  <g>
+    <circle cx="330" cy="170" r="5" fill="#d32f2f"/>
+    <circle cx="350" cy="210" r="5" fill="#222"/>
+    <circle cx="350" cy="280" r="5" fill="#222"/>
+    <circle cx="390" cy="260" r="5" fill="#1e6fd9"/>
+    <circle cx="410" cy="300" r="5" fill="#f2a900"/>
+  </g>
+  <!-- pin stubs -->
+  <g fill="#ccc" stroke="#555">
+    <circle cx="280" cy="170" r="4"/><circle cx="280" cy="210" r="4"/>
+    <circle cx="280" cy="260" r="4"/><circle cx="280" cy="300" r="4"/>
+    <circle cx="280" cy="480" r="4"/><circle cx="280" cy="510" r="4"/>
+    <circle cx="280" cy="540" r="4"/><circle cx="280" cy="570" r="4"/>
+    <circle cx="640" cy="80" r="4"/><circle cx="640" cy="110" r="4"/>
+    <circle cx="640" cy="140" r="4"/><circle cx="640" cy="170" r="4"/>
+    <circle cx="640" cy="280" r="4"/><circle cx="640" cy="310" r="4"/>
+    <circle cx="640" cy="340" r="4"/><circle cx="640" cy="370" r="4"/>
+    <circle cx="640" cy="480" r="4"/><circle cx="640" cy="510" r="4"/>
+    <circle cx="640" cy="540" r="4"/><circle cx="640" cy="570" r="4"/>
+    <circle cx="640" cy="590" r="4"/>
+  </g>
+
+  <!-- ===================== Legend ===================== -->
+  <g font-size="12" fill="#222">
+    <rect x="60" y="635" width="20" height="4" fill="#d32f2f"/><text x="86" y="641">3.3 V</text>
+    <rect x="140" y="635" width="20" height="4" fill="#222"/><text x="166" y="641">GND</text>
+    <rect x="215" y="635" width="20" height="4" fill="#1e6fd9"/><text x="241" y="641">SDA (GPIO21)</text>
+    <rect x="340" y="635" width="20" height="4" fill="#f2a900"/><text x="366" y="641">SCL (GPIO22)</text>
+    <text x="60" y="668">Buttons switch to GND; ESP32 internal pull-ups are used. Si5351 &amp; OLED share the I2C bus</text>
+    <text x="60" y="686">(both breakouts normally have on-board pull-ups). Power everything from the ESP32 3V3 pin.</text>
+  </g>
+</svg>

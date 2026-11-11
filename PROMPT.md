@@ -1,0 +1,105 @@
+# PROMPT
+
+This project was generated with the help of an AI model.
+
+- **AI model:** Claude Opus 5.5 (model ID `claude-opus-5-5`) by Anthropic
+- **Tool:** Claude Code (Claude desktop app, Code tab)
+- **Date:** 2026-11-11
+
+## Full prompt
+
+> I want to create an RF signal generator, using the following components:
+>
+> * ESP32 devboard
+> * SI5351 dds board with 25MHz crystal and 3 SMA outputs and I2C connection
+> * GM009605v4 0.96 inch oled display with I2C connection
+> * Small board with 4 pushbuttons with a common ground connection
+>
+> The display should start saying "sigblock v0.1b" and "(c) 2026 PA3HCM".
+> After 2 seconds it should display "10.000.000", indicating the output is 10 MHz exactly. Just below the 1 should be a cursor, indicating that this digit is currently selected.
+>
+> The 4 buttons are numbered 1 to 4.
+>
+> * Button 1: increase the selected digit. If going from 9 to 10/0, upper the next digit 1 as well, for example, upping the right digit of '19' will not go back to '10' but to '20'.
+> * Button 2: decrease the selected digit. It work the same as button 1, but then counting down.
+> * Button 3: select the next digit. When on the last digit, move back to the first digit.
+> * Button 4: Not used yet, will work on this later.
+>
+> Whenever the number on the display changes, the output frequency of the SI5351 should be changed to the displayed value.
+>
+> Create an image that displays the wiring between the boards.
+>
+> All boards are running on 3.3 volt.
+>
+> Store all code in a folder named 'cubegen'. Also create a file PROMPT.md with the used AI model and version and a full prompt representing this conversation. I will use VScode + PlatformIO to program the ESP32.
+
+### Follow-up 1
+
+> The cursor indicates the selected digit.
+
+(Confirmed: this was already implemented, no change.)
+
+### Follow-up 2
+
+> Button 4 sets the mode. The following modes are available:
+>
+> * The default mode is `CW` which sends a continuous carrier
+> * The next mode is `CW-keyed`, which sends a CW signal -.-.-. etc...
+> * The next mode is `FSK470`, where the signal is alternating 500ms on the given frequency and 500ms on a frequency that is 470Hz higher
+> * The next mode is `FSK850`, same as FSK470 but with 850Hz shift
+> * The next mode is `FSK1K`, same as FSK470 bith with 1kHz shift
+> * FInal mode is `OFF`, were no signal is generated.
+>
+> The display should show 'Mode: ' followed by the selected mode
+
+### Follow-up 3
+
+> Add a new mode `FSK10K`with 10kHz shift.
+
+### Follow-up 4
+
+> Change the default frequency from 10.000MHz to 10.100MHz. Set the default mode to `FSK10K`
+
+### Follow-up 5
+
+> How fast can you switch the SI5351 to another frequency? I try to key it every 100ms, but I don't know how realistic that is?
+
+(Answered only, no code change: below 100 MHz a frequency change only rewrites the multisynth registers, < 1 ms.)
+
+### Follow-up 6
+
+> Change any reference to 'sigblock' to 'cubeGen'
+
+(The original prompt above is kept verbatim; the splash screen now reads "cubeGen v0.1b".)
+
+### Follow-up 7
+
+> Set the default mode to FSK1K
+
+### Follow-up 8
+
+> Set the default frequency to 10.2 MHz
+
+### Follow-up 9
+
+> Set de default mode to CWkeyed
+
+### Follow-up 10
+
+> Set the default mode to `OFF`and the default frequency to 10.000 MHz.
+
+## Design decisions made by the AI
+
+- I2C bus shared by Si5351 (0x60) and OLED (SSD1306, 0x3C) on GPIO21 (SDA) / GPIO22 (SCL).
+- Buttons on GPIO32, GPIO33, GPIO25, GPIO26 using the ESP32 internal pull-ups (buttons switch to GND).
+- RF output on Si5351 CLK0; CLK1 and CLK2 disabled.
+- Display shows 8 digits (`XX.XXX.XXX` Hz), so the range is limited to 8 kHz … 99.999.999 Hz.
+  Steps that would leave this range are ignored.
+- Buttons 1 and 2 auto-repeat when held down.
+- Power-up defaults: 10.000.000 Hz, mode OFF, cursor on the first digit.
+- Button 4 cycles CW → CW-keyed → FSK470 → FSK850 → FSK1K → FSK10K → OFF → CW (FSK10K placed after FSK1K).
+- CW-keyed repeats "-." (dash 300 ms, gap 100 ms, dot 100 ms, gap 100 ms), i.e. 12 WPM.
+- FSK modes start on the displayed frequency, then the shifted (higher) frequency.
+- Keying is done with the Si5351 output enable, so the oscillator keeps running.
+- "Mode: <mode>" is shown on the bottom line of the display; a missing Si5351 warning moved to the top line.
+- Libraries: Etherkit Si5351, Adafruit SSD1306, Adafruit GFX.
