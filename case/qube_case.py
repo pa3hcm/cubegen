@@ -41,7 +41,7 @@ NAME = "QubeRG"         # engraved on the front
 S = 90.0                # outer size of the cube
 WALL = 3.0              # wall thickness
 R_EDGE = 3.0            # rounding radius of the outer edges
-SPLIT = 70.0            # height where bottom and top part meet
+SPLIT = S - 20.0        # height where bottom and top part meet
 TONGUE_H = 6.0          # height of the tongue on the bottom part
 TONGUE_T = 1.4          # thickness of the tongue
 FIT = 0.2               # clearance between tongue and top part
@@ -78,7 +78,7 @@ D_W = 27.3              # PCB width
 D_H = 27.8              # PCB height
 D_T = 1.2               # PCB thickness
 D_STACK = 2.4           # glass + adhesive in front of the PCB
-D_CZ = 45.0             # PCB centre height
+D_CZ = S / 2            # PCB centre height
 D_WIN_W = 24.0          # display window
 D_WIN_H = 14.0
 D_WIN_DZ = 1.5          # window centre above PCB centre (glass sits towards the header)
@@ -87,7 +87,7 @@ D_WIN_DZ = 1.5          # window centre above PCB centre (glass sits towards the
 B_W = 45.0              # PCB width
 B_H = 20.0              # PCB height
 B_T = 1.6
-B_CZ = 45.0             # PCB centre height
+B_CZ = S / 2            # PCB centre height
 B_XS = (-16.5, -5.5, 5.5, 16.5)   # switch positions relative to PCB centre (x, seen from inside)
 B_SW_H = 5.0            # switch height incl. stem, above PCB
 B_SW = 6.0              # switch body size
@@ -473,6 +473,14 @@ def fit_check(bottom, top, caps):
             if v > 0.01:
                 ok = False
                 print(f"  COLLISION  {dn:22s} x {cn:12s}: {v:8.2f}")
+    # boards against each other
+    dl = list(dummies().items())
+    for i in range(len(dl)):
+        for j in range(i + 1, len(dl)):
+            v = (dl[i][1] ^ dl[j][1]).volume()
+            if v > 0.01:
+                ok = False
+                print(f"  COLLISION  {dl[i][0]:22s} x {dl[j][0]:12s}: {v:8.2f}")
     # parts against each other (snap ridges are an intentional interference)
     ridges = union(snap_ridges(SNAP_R + 0.1))
     v = ((bottom ^ top) - ridges).volume()

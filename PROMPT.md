@@ -124,6 +124,22 @@ This project was generated with the help of an AI model.
 
 > Also mark the buttons. Put up and down symbols above button 1 and 2, 'D' above button 3 (for 'Digit') and 'M' above button 4 (for 'Mode').
 
+### Follow-up 19
+
+> What are the dimensions of the box?
+
+(Answered: 90 x 90 x 90 mm outside, 3 mm walls.)
+
+### Follow-up 20
+
+> I think that's too big. can you make it 70 x 70 x 70?
+
+(Tested: 70 mm does not fit because the Si5351 hangs on the SMA chain right above the ESP32; 80 mm only fits with wires soldered to the ESP32.)
+
+### Follow-up 21
+
+> Keep 90 mm
+
 ## Design decisions made by the AI
 
 - I2C bus shared by Si5351 (0x60) and OLED (SSD1306, 0x3C) on GPIO21 (SDA) / GPIO22 (SCL).
