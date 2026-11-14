@@ -1,6 +1,9 @@
-# cubeGen v0.1b
+# QubeRG v0.1b
 
-Simple RF signal generator: ESP32 + Si5351 + 0.96" OLED + 4 push buttons.
+Simple RF signal generator: ESP32 + Si5351 + 0.96" OLED + 4 push buttons,
+in a 3D-printed 90 mm cube with the RF output (SMA) on top.
+
+![QubeRG](docs/qubeRG.png)
 
 ![wiring](docs/wiring.png)
 
@@ -47,9 +50,37 @@ After `OFF` the mode wraps back to `CW`. The frequency can still be changed in e
 
 Range: 8 kHz … 99.999.999 Hz. Steps that would leave the range are ignored.
 
+## Case
+
+The `case/` folder holds a 3D-printable cube case (FDM, PETG):
+
+| File | Part | Print orientation |
+|------|------|-------------------|
+| `case/stl/qube_bottom.stl` | Floor + 4 walls (display window, USB hole, button holes) | As is, floor on the bed |
+| `case/stl/qube_top.stl` | Lid with SMA hole and hold-down fingers | As is (already upside down) |
+| `case/stl/qube_buttons.stl` | 4 button caps | As is, flange on the bed |
+
+![inside](docs/case_inside.png)
+
+- **Two halves that click together:** the bottom part has a tongue with snap ridges, the top part slides over it. Use the notch on the right side to pry it open.
+- **ESP32:** lies on the bottom, component side up, header pins pointing down (room for dupont plugs). It clicks between 4 flexible hooks; the USB connector lines up with the hole in the left wall.
+- **Display:** slides into rails on the inside of the front wall, glass against the window.
+- **Button board:** switches facing the back wall, slides into rails on the back wall. Put the 4 caps in the holes from the inside first.
+- **Locking:** fingers on the lid press the display and button board down when the cube is closed.
+- **Si5351:** hangs from the lid. Mount the SMA F-F bulkhead in the top hole, screw the M-M adaptor into it and the Si5351 CLK0 jack onto the adaptor.
+
+Suggested print settings: PETG, 0.2 mm layers, 3 walls, 20 % infill, no supports.
+
+**Measure your boards before printing.** Board sizes differ between suppliers. All dimensions are parameters at the top of `case/qube_case.py`. After changing them, regenerate the STLs and run the fit check against dummy boards:
+
+```bash
+pip install manifold3d numpy matplotlib
+cd case && python3 qube_case.py --check --preview
+```
+
 ## Build & upload
 
-Open the `cubegen` folder in VS Code with the PlatformIO extension, then
+Open the `QubeRG` folder in VS Code with the PlatformIO extension, then
 **Build** and **Upload** (environment `esp32dev`). Libraries are fetched
 automatically.
 

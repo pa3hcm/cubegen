@@ -1,5 +1,5 @@
 /*
- * cubeGen v0.1b - simple RF signal generator
+ * QubeRG v0.1b - simple RF signal generator
  * (c) 2026 PA3HCM
  *
  * Licensed under the Creative Commons Attribution-NonCommercial 4.0
@@ -236,7 +236,7 @@ void showSplash() {
   display.setTextColor(SSD1306_WHITE);
   display.setTextSize(1);
 
-  const char *line1 = "cubeGen v0.1b";
+  const char *line1 = "QubeRG v0.1b";
   const char *line2 = "(c) 2026 PA3HCM";
   display.setCursor((SCREEN_WIDTH - strlen(line1) * 6) / 2, 20);
   display.print(line1);
