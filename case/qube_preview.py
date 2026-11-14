@@ -55,10 +55,10 @@ def draw(ax, items, elev, azim, light=(-0.35, -0.75, 0.75), lim=None):
 
 def sma_connector():
     S = qc.S
-    hexf = Manifold.cylinder(2.0, 4.6, 4.6, 6).translate((qc.SI_X, S / 2, S))
-    body = cyl_z(qc.SI_X, S / 2, S + 2.0, 7.0, 3.17)
-    pin = cyl_z(qc.SI_X, S / 2, S + 2.0, 7.2, 2.2) - cyl_z(qc.SI_X, S / 2, S + 4.0, 6.0, 1.9)
-    return body - cyl_z(qc.SI_X, S / 2, S + 4.0, 6.0, 2.4) + pin, hexf
+    hexf = Manifold.cylinder(2.0, 4.6, 4.6, 6).translate((qc.SMA_X, qc.SMA_Y, S))
+    body = cyl_z(qc.SMA_X, qc.SMA_Y, S + 2.0, 7.0, 3.17)
+    pin = cyl_z(qc.SMA_X, qc.SMA_Y, S + 2.0, 7.2, 2.2) - cyl_z(qc.SMA_X, qc.SMA_Y, S + 4.0, 6.0, 1.9)
+    return body - cyl_z(qc.SMA_X, qc.SMA_Y, S + 4.0, 6.0, 2.4) + pin, hexf
 
 
 def render(bottom, top, caps, dummies, outdir):

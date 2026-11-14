@@ -53,7 +53,7 @@ ENGRAVE = 0.6           # engraving depth of text
 ESP_L = 55.0            # PCB length (USB end to antenna end)
 ESP_W = 28.0            # PCB width
 ESP_T = 1.6             # PCB thickness
-ESP_LIFT = 22.0         # PCB bottom above floor (room for dupont plugs on the pins)
+ESP_LIFT = 20.0         # PCB bottom above floor (room for dupont plugs on the pins)
 ESP_Y = S / 2           # PCB centre line (y)
 USB_OVERHANG = 1.0      # USB connector sticks out this much past the PCB edge
 USB_H = 3.0             # USB connector height above PCB
@@ -66,7 +66,8 @@ ESP_HOOK_X = (0.5, 3.0) # hook/support zone measured from each PCB end
 SI_W = 40.0             # PCB width (along the edge with the SMA connectors)
 SI_H = 30.0             # PCB height (perpendicular to that edge)
 SI_T = 1.6
-SI_X = 72.0             # x position of the PCB plane (board stands parallel to the side walls)
+SMA_X = S / 2           # SMA bulkhead position on the top panel (centre)
+SMA_Y = S / 2           # the Si5351 stands parallel to the front wall, right below it
 SI_CLK0_OFF = 0.0       # CLK0 position on the SMA edge, relative to the board centre
 SI_SMA_PITCH = 12.0     # spacing of the 3 SMA connectors (only used for the fit check)
 SI_CHAIN = 26.0         # inner top surface -> Si5351 PCB edge (bulkhead + M-M adaptor + jack)
@@ -96,6 +97,7 @@ CAP_FLANGE_D = 9.0      # cap flange (keeps the cap inside)
 CAP_FLANGE_T = 1.2
 CAP_OUT = 1.5           # cap sticks out of the wall this much
 CAP_GAP = 0.3           # gap between cap and switch stem
+BUTTON_LABELS = ("\u25B2", "\u25BC", "D", "M")   # button 1..4: up, down, Digit, Mode
 
 # =====================================================================
 # Helpers
@@ -215,7 +217,7 @@ B_PCB_Y0 = B_PCB_Y1 - B_T                         # back side of the PCB
 # Si5351
 SI_TOP = IN1 - SI_CHAIN
 SI_BOT = SI_TOP - SI_H
-SI_YC = S / 2 - SI_CLK0_OFF
+SI_XC = SMA_X - SI_CLK0_OFF                   # board centre (along x)
 
 # =====================================================================
 # Parts
@@ -342,8 +344,8 @@ def bottom_part():
     cuts.append(engrave_front(NAME, 6.0, S / 2, (D_Z1 + SPLIT) / 2))
     cuts.append(engrave_left("USB", 4.0, ESP_Y, USB_CZ - USB_HOLE_H / 2 - 5))
     for i, bx in enumerate(B_XS):
-        # numbers above the buttons, 1..4 from left to right seen from the back
-        cuts.append(engrave_back(str(4 - i), 4.0, S / 2 + bx, B_CZ + 7.5))
+        # symbols above the buttons; button 1..4 from left to right seen from the back
+        cuts.append(engrave_back(BUTTON_LABELS[3 - i], 4.5, S / 2 + bx, B_CZ + 7.5))
     return m - union(cuts)
 
 
@@ -367,10 +369,10 @@ def top_part():
         fingers.append(box(x0, B_PCB_Y0 + 0.1, zj, x1, IN1 + 0.01, IN1 + 0.01))
     top = top + union(fingers)
 
-    cuts = [cyl_z(SI_X, S / 2, IN1 - 1, WALL + 2, SMA_HOLE_D / 2)]
+    cuts = [cyl_z(SMA_X, SMA_Y, IN1 - 1, WALL + 2, SMA_HOLE_D / 2)]
     # pry notch on the right side, to open the cube with a coin / screwdriver
     cuts.append(box(S - (IN0 - TONGUE_T - FIT) - 0.01, S / 2 - 6, SPLIT - 0.01, S + 1, S / 2 + 6, SPLIT + 1.5))
-    cuts.append(engrave_top("RF", 6.0, SI_X, S / 2 + 10))
+    cuts.append(engrave_top("RF", 6.0, SMA_X, SMA_Y - 11))
     return top - union(cuts)
 
 
@@ -426,11 +428,11 @@ def dummies():
     btn += box(S / 2 - 6.5, B_PCB_Y0 - 25, B_Z1 - 2.6, S / 2 + 6.5, B_PCB_Y0, B_Z1)
     d["button board"] = btn
     # Si5351: PCB, components, 3 SMA jacks, adaptor + bulkhead up to the top
-    si = box(SI_X - SI_T / 2, SI_YC - SI_W / 2, SI_BOT, SI_X + SI_T / 2, SI_YC + SI_W / 2, SI_TOP)
-    si += box(SI_X + SI_T / 2, SI_YC - SI_W / 2 + 2, SI_BOT + 2, SI_X + SI_T / 2 + 3, SI_YC + SI_W / 2 - 2, SI_TOP - 2)
+    si = box(SI_XC - SI_W / 2, SMA_Y - SI_T / 2, SI_BOT, SI_XC + SI_W / 2, SMA_Y + SI_T / 2, SI_TOP)
+    si += box(SI_XC - SI_W / 2 + 2, SMA_Y + SI_T / 2, SI_BOT + 2, SI_XC + SI_W / 2 - 2, SMA_Y + SI_T / 2 + 3, SI_TOP - 2)
     for k in (-1, 0, 1):
-        si += cyl_z(SI_X, SI_YC + SI_CLK0_OFF + k * SI_SMA_PITCH, SI_TOP, 9, 4.0)
-    si += cyl_z(SI_X, S / 2, SI_TOP + 8.9, IN1 - SI_TOP - 8.9 - 0.02, 4.6)
+        si += cyl_z(SMA_X + k * SI_SMA_PITCH, SMA_Y, SI_TOP, 9, 4.0)
+    si += cyl_z(SMA_X, SMA_Y, SI_TOP + 8.9, IN1 - SI_TOP - 8.9 - 0.02, 4.6)
     d["Si5351 + SMA chain"] = si
     return d
 
